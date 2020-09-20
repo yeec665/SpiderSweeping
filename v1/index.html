@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--作者：泉平方-->
+<html>
+<head>
+    <meta charset='utf-8'>
+    <link rel='icon' href='spider-1.png' type='image/x-icon'/>
+    <title>扫 蜘 蛛</title>
+    <style>
+        body {
+            margin-left: auto;
+            margin-right: auto;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            font-size: 30px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            width: 55px;
+            height: 55px;
+            padding: 0px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #bbb;
+            background-color: #eee;
+            text-align: center;
+            color: #f80;
+        }
+        td.open {
+            background-color: #fff;
+        }
+        td.c0 {
+            background-color: #fff;
+            color: #999;
+        }
+        td.c1 {
+            background-color: #fff;
+            color: #00b;
+        }
+        td.c2 {
+            background-color: #fff;
+            color: #0b0;
+        }
+        td.c3 {
+            background-color: #fff;
+            color: #b00;
+        }
+        td.c4 {
+            background-color: #fff;
+            color: #990;
+        }
+        td.c5, td.c6, td.c7, td.c8 {
+            background-color: #fff;
+            color: #909;
+        }
+        td.ind {
+            background-color: #e55;
+        }
+        #ss-header {
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: stretch;
+        }
+        #left-info, #right-info {
+            min-width: 240px;
+            flex-basis: 0px;
+            flex-grow: 1;
+        }
+        #center-img {
+            margin: 2px;
+            padding: 0px;
+            width: 304px;
+            height: 188px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        #ss-panel {
+            position: relative;
+        }
+        #overlay-panel {
+            position: absolute;
+            display: none;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+        #overlay-panel.visible {
+            display: block;
+        }
+        #ani-img {
+            position: absolute;
+            display: none;
+            left: -32px;
+            top: -32px;
+        }
+        #ani-img.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id='ss-header'>
+        <span id='left-info'></span>
+        <span id='center-img'><img id='player-img'></img></span>
+        <span id='right-info'></span>
+    </div>
+    <span id='ss-panel'>
+        <table id='play-table'></table>
+        <div id='overlay-panel'>
+            <img src='spider-1.png' id='ani-img'></img>
+        </div>
+    </span>
+    <script>
+        var width = 20;
+        var height = 12;
+        var density = 33;
+        var matrix = [];
+        var aniObj = new Object();
+        function step() {
+            for (var y = 0; y < height; y++) {
+                for (var x = 0; x < width; x++) {
+                    var obj = matrix[x + width * y];
+                    if (obj.spider != 0) {
+                        var count = 0;
+                        if (x > 0) {
+                            count += matrix[(x - 1) + width * y].open;
+                        }
+                        if (x + 1 < width) {
+                            count += matrix[(x + 1) + width * y].open;
+                        }
+                        if (y > 0) {
+                            count += matrix[x + width * (y - 1)].open;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y - 1)].open;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y - 1)].open;
+                            }
+                        }
+                        if (y + 1 < height) {
+                            count += matrix[x + width * (y + 1)].open;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y + 1)].open;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y + 1)].open;
+                            }
+                        }
+                        if (2 + count > 18 * Math.random()) {
+                            var adj = null;
+                            switch (Math.floor(4 * Math.random())) {
+                                case 0:
+                                    if (x > 0) {
+                                        adj = matrix[(x - 1) + width * y];
+                                        if (adj.open == 0 && adj.spider == 0) {
+                                            adj.spider = obj.spider;
+                                            obj.spider = 0;
+                                        }
+                                    }
+                                    break;
+                                case 1:
+                                    if (x + 1 < width) {
+                                        adj = matrix[(x + 1) + width * y];
+                                        if (adj.open == 0 && adj.spider == 0) {
+                                            adj.spider = obj.spider;
+                                            obj.spider = 0;
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                    if (y > 0) {
+                                        adj = matrix[x + width * (y - 1)];
+                                        if (adj.open == 0 && adj.spider == 0) {
+                                            adj.spider = obj.spider;
+                                            obj.spider = 0;
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    if (y + 1 < height) {
+                                        adj = matrix[x + width * (y + 1)];
+                                        if (adj.open == 0 && adj.spider == 0) {
+                                            adj.spider = obj.spider;
+                                            obj.spider = 0;
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            var remain = 0;
+            for (var y = 0; y < height; y++) {
+                for (var x = 0; x < width; x++) {
+                    var obj = matrix[x + width * y];
+                    if (obj.open != 0) {
+                        var count = 0;
+                        if (x > 0) {
+                            count += matrix[(x - 1) + width * y].spider;
+                        }
+                        if (x + 1 < width) {
+                            count += matrix[(x + 1) + width * y].spider;
+                        }
+                        if (y > 0) {
+                            count += matrix[x + width * (y - 1)].spider;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y - 1)].spider;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y - 1)].spider;
+                            }
+                        }
+                        if (y + 1 < height) {
+                            count += matrix[x + width * (y + 1)].spider;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y + 1)].spider;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y + 1)].spider;
+                            }
+                        }
+                        obj.block.innerHTML = "" + count;
+                        obj.block.className = "c" + count;
+                    } else if (obj.spider == 0) {
+                        remain++;
+                    }
+                }
+            }
+            document.getElementById("right-info").innerHTML = "剩余：" + remain;
+            return remain == 0;
+        }
+        function tick() {
+            var dx = aniObj.x - aniObj.mx;
+            var dy = aniObj.y - aniObj.my;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            var f = Math.min(2.0, Math.max(-5.0, 0.1 * (aniObj.l - d))) / d;
+            aniObj.vx = 0.97 * aniObj.vx + f * dx;
+            aniObj.vy = 0.97 * aniObj.vy + f * dy + 2.0;
+            aniObj.x += aniObj.vx;
+            aniObj.y += aniObj.vy;
+            if (d > 1.0) {
+                var cos = dx / d;
+                var sin = dy / d;
+                aniObj.img.setAttribute("style", "transform: matrix(" + (-sin) + "," + cos + "," + (-cos) + "," + (-sin) + "," + aniObj.x + "," + aniObj.y + ")");
+            } else {
+                aniObj.img.setAttribute("style", "transform: translation(" + aniObj.x + "," + aniObj.y + ")");
+            }
+        }
+        function reveal() {
+            for (var y = 0; y < height; y++) {
+                for (var x = 0; x < width; x++) {
+                    var obj = matrix[x + width * y];
+                    if (obj.spider == 0) {
+                        var count = 0;
+                        if (x > 0) {
+                            count += matrix[(x - 1) + width * y].spider;
+                        }
+                        if (x + 1 < width) {
+                            count += matrix[(x + 1) + width * y].spider;
+                        }
+                        if (y > 0) {
+                            count += matrix[x + width * (y - 1)].spider;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y - 1)].spider;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y - 1)].spider;
+                            }
+                        }
+                        if (y + 1 < height) {
+                            count += matrix[x + width * (y + 1)].spider;
+                            if (x > 0) {
+                                count += matrix[(x - 1) + width * (y + 1)].spider;
+                            }
+                            if (x + 1 < width) {
+                                count += matrix[(x + 1) + width * (y + 1)].spider;
+                            }
+                        }
+                        obj.block.innerHTML = "" + count;
+                        obj.block.className = "c" + count;
+                    } else if (obj.open == 0) {
+                        obj.block.innerHTML = "";
+                        obj.block.style = "background-image: url('spider-2.png')";
+                    }
+                }
+            }
+        }
+        function animate(x, y) {
+            var overlayPanel = document.getElementById("overlay-panel");
+            aniObj.x = overlayPanel.clientWidth * (0.5 + x) / width;
+            aniObj.y = overlayPanel.clientHeight * (0.5 + y) / height;
+            aniObj.l = 150;
+            if (aniObj.timer != null) {
+                window.clearInterval(aniObj.timer);
+            }
+            aniObj.timer = window.setInterval(tick, 50);
+        }
+        function blockOpen(x, y) {
+            var obj = matrix[x + width * y];
+            if (obj.open == 0) {
+                obj.mark = 0;
+                obj.open = 1;
+                var playerImg = document.getElementById("player-img");
+                if (obj.spider == 0) {
+                    if (step()) {
+                        playerImg.setAttribute("src", "warma-4.png");
+                        document.getElementById("overlay-panel").className = "visible";
+                        aniObj.img.className = "";
+                    } else {
+                        playerImg.setAttribute("src", "warma-2.png");
+                        window.setTimeout(function() {
+                            playerImg.setAttribute("src", "warma-1.png");
+                        }, 225);
+                    }
+                } else {
+                    obj.block.innerHTML = "";
+                    obj.block.className = "ind";
+                    playerImg.setAttribute("src", "warma-3.png");
+                    reveal();
+                    document.getElementById("overlay-panel").className = "visible";
+                    aniObj.img.className = "visible";
+                    animate(x, y);
+                }
+            }
+        }
+        function blockMark(x, y) {
+            var obj = matrix[x + width * y];
+            if (obj.open == 0) {
+                if (obj.mark == 0) {
+                    obj.mark = 1;
+                    obj.block.innerHTML = "F";
+                } else {
+                    obj.mark = 0;
+                    obj.block.innerHTML = "";
+                }
+            }
+        }
+        function reset() {
+            var matrixSize = width * height;
+            for (var i = 0; i < matrixSize; i++) {
+                var obj = matrix[i];
+                obj.open = 0;
+                obj.mark = 0;
+                obj.block.innerHTML = "";
+                obj.block.className = "";
+                obj.block.style = "";
+                if (i < density) {
+                    obj.spider = 1;
+                } else {
+                    obj.spider = 0;
+                }
+            }
+            for (var i = 0; i < matrixSize; i++) {
+                var j = Math.floor(matrixSize * Math.random());
+                var t = matrix[i].spider;
+                matrix[i].spider = matrix[j].spider;
+                matrix[j].spider = t;
+            }
+            document.getElementById("right-info").innerHTML = "剩余：" + (matrixSize - density);
+            document.getElementById("player-img").setAttribute("src", "warma-1.png");
+            document.getElementById("overlay-panel").className = "";
+            aniObj.img.className = "";
+            if (aniObj.timer != null) {
+                window.clearInterval(aniObj.timer);
+                aniObj.timer = null;
+            }
+        }
+        function create() {
+            var table = document.getElementById("play-table");
+            table.oncontextmenu = function(e){
+                e.preventDefault();
+            };
+            for (let y = 0; y < height; y++) {
+                var row = document.createElement("tr");
+                for (let x = 0; x < width; x++) {
+                    var block = document.createElement("td");
+                    block.onmousedown = function(e) {
+                        if (e.button == 0) {
+                            blockOpen(x, y);
+                        } else if (e.button == 2) {
+                            blockMark(x, y);
+                        }
+                    }
+                    //block.setAttribute("onclick", "blockOpen(" + x + "," + y + ")");
+                    row.appendChild(block);
+                    var obj = new Object();
+                    obj.block = block;
+                    matrix.push(obj);
+                }
+                table.appendChild(row);
+            }
+            document.getElementById("player-img").setAttribute("onclick", "reset()");
+            aniObj.img = document.getElementById("ani-img");
+            aniObj.mx = 0;
+            aniObj.my = 0;
+            aniObj.timer = null;
+            aniObj.x = 0;
+            aniObj.y = 0;
+            aniObj.vx = 0;
+            aniObj.vy = 0;
+            aniObj.l = 0;
+            document.getElementById("overlay-panel").onmousemove = function(e) {
+                aniObj.mx = e.layerX;
+                aniObj.my = e.layerY;
+            }
+            reset();
+        }
+        create();
+    </script>
+</body>
+</html>
