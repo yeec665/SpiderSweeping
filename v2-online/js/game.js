@@ -36,7 +36,7 @@ ani.start = function(bx, by, count) {
         var obj = new Object();
         var img = document.createElement("img");
         img.className = "swing-img";
-        img.src = "spider-1.png";
+        img.src = "img/spider-1.png";
         overlayPanel.appendChild(img);
         obj.img = img;
         obj.x = bx + 50 * (Math.random() - 0.5);
@@ -105,43 +105,43 @@ game.spiderMove = function(from, to) {
 game.revealCreature = function(block) {
     switch (block.creature) {
         case 2:
-            block.td.style = "background-image: url('snowman-1.png');";
+            block.td.style = "background-image: url('img/snowman-1.png');";
             break;
         case 3:
-            block.td.style = "background-image: url('snowman-1.png'); background-position: -50px 0px;";
+            block.td.style = "background-image: url('img/snowman-1.png'); background-position: -50px 0px;";
             break;
         case 4:
-            block.td.style = "background-image: url('snowman-1.png'); background-position: 0px -50px;";
+            block.td.style = "background-image: url('img/snowman-1.png'); background-position: 0px -50px;";
             break;
         case 5:
-            block.td.style = "background-image: url('snowman-1.png'); background-position: -50px -50px;";
+            block.td.style = "background-image: url('img/snowman-1.png'); background-position: -50px -50px;";
             break;
         case 6:
-            block.td.style = "background-image: url('giraffe-1.png');";
+            block.td.style = "background-image: url('img/giraffe-1.png');";
             break;
         case 7:
-            block.td.style = "background-image: url('giraffe-1.png'); background-position: 0px -50px;";
+            block.td.style = "background-image: url('img/giraffe-1.png'); background-position: 0px -50px;";
             break;
         case 8:
-            block.td.style = "background-image: url('egg-1.png');";
+            block.td.style = "background-image: url('img/egg-1.png');";
             break;
         case 9:
-            block.td.style = "background-image: url('hen-1.png');";
+            block.td.style = "background-image: url('img/hen-1.png');";
             break;
         case 10:
-            block.td.style = "background-image: url('cat-1-0.png');";
+            block.td.style = "background-image: url('img/cat-1-0.png');";
             break;
         case 11:
-            block.td.style = "background-image: url('cat-1-1.png');";
+            block.td.style = "background-image: url('img/cat-1-1.png');";
             break;
         case 12:
-            block.td.style = "background-image: url('cat-1-2.png');";
+            block.td.style = "background-image: url('img/cat-1-2.png');";
             break;
         case 13:
-            block.td.style = "background-image: url('cat-1-3.png');";
+            block.td.style = "background-image: url('img/cat-1-3.png');";
             break;
         case 14:
-            block.td.style = "background-image: url('cat-1-4.png');";
+            block.td.style = "background-image: url('img/cat-1-4.png');";
             break;
     }
 }
@@ -161,13 +161,13 @@ game.reveal = function() {
                 if (block.creature == 0) {
                     switch (block.spider) {
                         case 1:
-                            block.td.style = "background-image: url('spider-1.png');";
+                            block.td.style = "background-image: url('img/spider-1.png');";
                             break;
                         case 2:
-                            block.td.style = "background-image: url('spider-2.png');";
+                            block.td.style = "background-image: url('img/spider-2.png');";
                             break;
                         case 3:
-                            block.td.style = "background-image: url('spider-3.png');";
+                            block.td.style = "background-image: url('img/spider-3.png');";
                             break;
                         default:
                             block.td.style = "";
@@ -418,12 +418,12 @@ game.openBlock = function(x, y) {
         if (block.spider == 0 || this.avoid(x, y)) {
             if (this.step()) {
                 game.successiveLose = 0;
-                imgMain.setAttribute("src", "warma-4.png");
+                imgMain.setAttribute("src", "img/warma-4.png");
             } else {
-                imgMain.setAttribute("src", "warma-2.png");
+                imgMain.setAttribute("src", "img/warma-2.png");
                 window.setTimeout(function() {
-                    if (imgMain.getAttribute("src") == "warma-2.png") {
-                        imgMain.setAttribute("src", "warma-1.png");
+                    if (imgMain.getAttribute("src") == "img/warma-2.png") {
+                        imgMain.setAttribute("src", "img/warma-1.png");
                     }
                 }, 225);
             }
@@ -431,9 +431,9 @@ game.openBlock = function(x, y) {
             game.successiveLose++;
             this.reveal();
             if (game.successiveLose >= 3) {
-                imgMain.setAttribute("src", "warma-5.png");
+                imgMain.setAttribute("src", "img/warma-5.png");
             } else {
-                imgMain.setAttribute("src", "warma-3.png");
+                imgMain.setAttribute("src", "img/warma-3.png");
             }
             document.getElementById("overlay-panel").className = "visible";
             ani.start((x + 0.5) / this.width, (y + 0.5) / this.height, block.spider);
@@ -586,7 +586,7 @@ game.start = function() {
             j += 223;
         }
     }
-    document.getElementById("img-main").setAttribute("src", "warma-1.png");
+    document.getElementById("img-main").setAttribute("src", "img/warma-1.png");
     document.getElementById("overlay-panel").className = "";
     this.step();
 };
