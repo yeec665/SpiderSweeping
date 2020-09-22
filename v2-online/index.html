@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="keywords" content="沃玛"/>
+    <link rel='icon' href='spider-1.png' type='image/x-icon'/>
+    <title>扫蜘蛛2</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <span id='root-pane'>
+        <div id='head-bar'>
+            <span id='options' class='head-side'>
+                <div class='option-line'>
+                    <span title='游戏地图的大小'>场面大小：</span>
+                    <select id='size-select'>
+                        <option>小场面</option>
+                        <option>一般场面</option>
+                        <option>大场面</option>
+                    </select>
+                </div>
+                <div class='option-line'>
+                    <span title='方块中蜘蛛的生成概率'>游戏难度：</span>
+                    <select id='difficulty-select'>
+                        <option>简单</option>
+                        <option>普通</option>
+                        <option>困难</option>
+                    </select>
+                </div>
+                <div class='option-line'>
+                    <span title='三角猫、雪人、长颈鹿、鸡蛋、鸡'>沃玛生物：</span>
+                    <select id='biome-select'>
+                        <option>关</option>
+                        <option>开</option>
+                    </select>
+                </div>
+            </span>
+            <span id='img-pane' title='点击重新开始游戏'>
+                <img id='img-main' src='warma-1.png'></img>
+            </span>
+            <span id='info' class='head-side'>
+                <div class='option-line'>
+                    <span id='remain-count' title='没有点开且没有蜘蛛的方块数量'>剩余数量：</span>
+                </div>
+                <div class='option-line'>
+                    <span id='action-help' class='v-button' title='打开或关闭帮助'>帮助</span>
+                </div>
+            </span>
+        </div>
+        <div id='play-panel' class='visible'>
+            <table id='play-table' cellspacing='0'></table>
+            <div id='overlay-panel'></div>
+        </div>
+        <div id='help-panel'>
+            <p>鼠标左键点击可以打开一个方块，如果方块里面有蜘蛛，游戏失败。鼠标右键可以给没有打开的方块添加或移除标记。</p>
+            <p>鼠标左键打开一个方块算一个回合。每回合每只蜘蛛随机向上、下、左、右移动一格或不动。蜘蛛移动时不能与其他生物重叠。</p>
+            <p>打开的方块会显示一个数字，表示周围8个方块中蜘蛛的数量。但是这个数字可能会被“沃玛生物”挡住。</p>
+            <p>打开场上所有没有蜘蛛的方块，游戏就完成了。右上角会显示场上还剩余多少没有蜘蛛的方块需要打开。nia！</p>
+            <p>&nbsp;</p>
+            <p>“沃玛生物”选项开启后，会增加以下元素：</p>
+            <table><tbody>
+                <tr><td class='c0' style='background-image: url("cat-1-0.png");'></td></tr>
+            </tbody></table>
+            <p>三角猫：三角猫指的是三角形的猫，而不是三只脚的猫。宽度和高度均为1，会挡住1个数字。最大生成数量为4。</p>
+            <table><tbody>
+                <tr><td class='c0' style='background-image: url("snowman-1.png");'></td><td class='c0' style='background-image: url("snowman-1.png"); background-position: -50px 0px;'></td></tr>
+                <tr><td class='c0' style='background-image: url("snowman-1.png"); background-position: 0px -50px;'></td><td class='c0' style='background-image: url("snowman-1.png"); background-position: -50px -50px;'></td></tr>
+            </tbody></table>
+            <p>雪人：会悄悄移动到你身后的巨大雪人。宽度和高度均为2，会挡住4个数字，而且每回合可以移动的话随机向上、下、左、右移动一格。雪人移动时不能与其他生物重叠。最大生成数量为1。</p>
+            <table><tbody>
+                <tr><td class='c0' style='background-image: url("giraffe-1.png");'></td></tr>
+                <tr><td class='c0' style='background-image: url("giraffe-1.png"); background-position: 0px -50px;'></td></tr>
+            </tbody></table>
+            <p>λ鹿：希腊字母λ形状的长颈鹿。宽度为2，高度为1，会挡住2个数字。蜘蛛可以在长颈鹿周围的10个方块重叠，最大重叠数量为每个方块3个蜘蛛。最大生成数量为1。</p>
+            <table><tbody>
+                <tr><td class='c0' style='background-image: url("egg-1.png");'></td></tr>
+            </tbody></table>
+            <p>鸡蛋：宽度和高度均为1，会挡住1个数字。如果鸡蛋周围8个方块有蜘蛛，鸡蛋会开始孵化，8个回合后鸡蛋会变成鸡。如果鸡蛋所在方块被点开，鸡蛋会停止孵化，再也不能变成鸡。最大生成数量为1。</p>
+            <table><tbody>
+                <tr><td class='c0' style='background-image: url("hen-1.png");'></td></tr>
+            </tbody></table>
+            <p>母鸡：宽度和高度均为1，会挡住1个数字。鸡周围8个方块的蜘蛛会立即被消灭。</p>
+            <p>作者（不是沃玛生物）：泉平方&nbsp;<a href="https://space.bilibili.com/40110371">B站</a>&nbsp;<a href="https://www.zhihu.com/people/yeec217">知乎</a></p>
+        </div>
+    </span>
+    <script type='text/javascript' src='game.js'></script>
+</body>
+</html>

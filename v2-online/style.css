@@ -1,0 +1,139 @@
+body {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#root-pane {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+#head-bar {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+.head-side {
+    flex-basis: 0px;
+    flex-grow: 1;
+    min-width: 202px;
+    margin: 6px;
+}
+.option-line {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+select {
+    font-size: 18px;
+}
+.v-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ddd;
+    cursor: pointer;
+}
+.v-button:hover {
+    border-color: #fa1;
+}
+#img-pane {
+    margin: 2px;
+    padding: 0px;
+    overflow: hidden;
+    cursor: pointer;
+}
+#play-panel {
+    position: relative;
+    display: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#play-panel.visible {
+    display: block;
+}
+table {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 28px;
+}
+td {
+    width: 50px;
+    height: 50px;
+    margin: 0px;
+    padding: 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+    background-color: #fff;
+    overflow: hidden;
+    text-align: center;
+}
+td.cx {
+    background-color: #eee;
+}
+td.flag {
+    background-color: #eee;
+    color: #fa1;
+}
+td.cx:hover {
+    border-color: #fa1;
+}
+td.flag:hover {
+    border-color: #e55;
+}
+td.c0 {
+    color: #999;
+}
+td.c1 {
+    color: #00b;
+}
+td.c2 {
+    color: #0b0;
+}
+td.c3 {
+    color: #b00;
+}
+td.c4 {
+    color: #990;
+}
+td.c5 {
+    color: #909;
+}
+td.bad {
+    background-color: #e55;
+}
+#overlay-panel {
+    position: absolute;
+    display: none;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+#overlay-panel.visible {
+    display: block;
+}
+.swing-img {
+    position: absolute;
+    left: -25px;
+    top: -25px;
+}
+#help-panel {
+    max-width: 840px;
+    padding: 8px;
+    font-size: 18px;
+    display: none;
+}
+#help-panel.visible {
+    display: block;
+}
